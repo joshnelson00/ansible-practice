@@ -1,0 +1,15 @@
+- name: Install packages using variables
+  hosts: all
+  become: true
+  vars:
+    package_name: htop
+
+  tasks:
+    - name: Install package
+      ansible.builtin.apt:
+        name: "{{ package_name }}"
+        state: absent
+
+    - name: Remove unused dependencies
+      ansible.builtin.apt:
+        autoremove: true
