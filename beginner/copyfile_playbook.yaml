@@ -1,7 +1,0 @@
-- name: Copy File Content
-  hosts: all
-  tasks:
-    - name: Copy a File
-      ansible.builtin.copy:
-        dest: /tmp/hello.txt
-        content: Hello from Josh's Laptop

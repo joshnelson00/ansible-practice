@@ -1,0 +1,31 @@
+#SPDX-License-Identifier: MIT-0
+---
+
+# tasks file for roles/webserver
+
+- name: Install webserver dependencies
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  become: true
+  loop:  "{{ packages }}"
+
+- name: Start nginx
+  ansible.builtin.systemd_service:
+    name: nginx
+    state: started
+    enabled: true
+    
+
+- name: Create nginx files
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop: 
+  - { src: ../files/index.html, dest: /var/www/mysite/ }
+  - { src: ../files/nginx.conf, dest: /etc/nginx/sites-available/mysite }
+  notify: Reload nginx
+
+
+    
+
