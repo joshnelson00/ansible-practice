@@ -1,0 +1,5 @@
+- name: Message of The Day
+  hosts: all
+  become: true
+  roles:
+    - motd
