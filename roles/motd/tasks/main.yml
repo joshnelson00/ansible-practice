@@ -3,6 +3,33 @@
 # tasks file for motd
 - name: Copy MOTD file to PI
   ansible.builtin.template:
-    src: ../files/motd.j2
+    src: ../templates/motd.j2
     dest: /etc/motd
     mode: "0644"
+
+- name: Copy Quotes file to PI
+  ansible.builtin.copy:
+    src: ../files/quotes.txt
+    dest: /etc/quotes/quotes.txt
+    mode: "0644"
+
+- name: Create file
+  ansible.builtin.copy:
+    src: ../files/quote.sh
+    dest: /etc/quotes/quote_selector.sh
+    force: false
+
+- name: Add selector file perms
+  ansible.builtin.file:
+    mode: o+rx
+    path: /etc/quotes/quote_selector.sh
+
+
+- name: Check Integration File within Startup cron
+  ansible.builtin.shell: "grep -c './quote_selector' {{ startup_file_loc }}"
+  register: result
+  changed_when: result.stdout != "1"
+  failed_when: false
+  notify: Append Quote Script
+
+

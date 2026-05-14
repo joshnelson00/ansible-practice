@@ -1,3 +1,10 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # handlers file for motd
+- name: Append Quote Script
+  ansible.builtin.lineinfile:
+    create: true
+    line: "../quotes/quote_selector"
+    insertafter: "EOF"
+    path: /etc/update-motd.d/10-uname
+  become: true

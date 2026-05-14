@@ -1,3 +1,5 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # vars file for motd
+
+startup_file_loc: "/etc/update-motd.d/10-uname"
